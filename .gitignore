@@ -1,2 +1,6 @@
-
+mvnw
+mvnw.cmd
+src/.DS_Store
+/target
 .DS_Store
+.idea
