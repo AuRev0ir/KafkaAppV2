@@ -1,8 +1,9 @@
-package ru.kafkaTest.consumer1.config;
+package ru.kafkaTest.configApp;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -16,7 +17,8 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    private String kafkaServer = "localhost:9092";
+    @Value("${kafka.server}")
+    private String kafkaServer ;
 
     @Bean
     public Map<String, Object> consumerConfigs() {

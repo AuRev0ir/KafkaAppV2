@@ -1,0 +1,15 @@
+kafka:
+  server:
+    localhost:9092
+
+  topicName:
+    kafka-test
+
+  numberOfPartitions:
+    3
+
+  clientId:
+    myProducer
+
+
+

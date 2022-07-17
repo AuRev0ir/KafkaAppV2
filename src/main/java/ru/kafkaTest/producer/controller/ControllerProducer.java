@@ -12,7 +12,6 @@ import ru.kafkaTest.producer.service.ServiceProducer;
 
 
 @RestController
-@RequestMapping("/sending")
 public class ControllerProducer {
 
    private final ServiceProducer service;
