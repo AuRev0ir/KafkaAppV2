@@ -1,4 +1,4 @@
-package ru.kafkaTest.producer.exception.errorHandler;
+package ru.kafkaTest.producer.errorHandler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

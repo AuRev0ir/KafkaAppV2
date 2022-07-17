@@ -8,7 +8,6 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import ru.kafkaTest.producer.exception.PartitionException;
-import ru.kafkaTest.topic.TopicConfig;
 
 @Service
 public class ServiceProducerImpl implements ServiceProducer {
@@ -26,39 +25,43 @@ public class ServiceProducerImpl implements ServiceProducer {
     }
 
     @Override
-    public void sendingOneMessage(Long msgId, String msg) {
+    public String sendOneMessage(Long msgId, String msg) {
         ListenableFuture<SendResult<Long, String>> future = kafkaTemplate.send(topicName, msgId, msg);
-//        future.addCallback(System.out::println, System.err::println);
+        future.addCallback(System.out::println, System.err::println);
         kafkaTemplate.flush();
+        return "Operation successful";
     }
 
     @Override
-    public void newsletterMsg(Long quantity, String msg) {
-        for(long i = 0L; i <= quantity; i++) {
-            kafkaTemplate.send(topicName, i, msg+" number: "+ i);
+    public String sendManyMessages(Long quantity, String msg) {
+        for(Long i = 0L; i <= quantity; i++) {
+            kafkaTemplate.send(topicName, i, msg + " number: " + i);
             kafkaTemplate.flush();
         }
+        return "Operation successful";
     }
 
     @Override
-    public void newsletterMsgByPartition(int partition, Long quantity, String msg) {
+    public String sendManyMessagesByPartition(Integer partition, Long quantity, String msg) {
         if (partition <= numberOfPartitions - 1) {
-            for(long i = 1L; i <= quantity; i++) {
-                kafkaTemplate.send(topicName,partition, i, msg+" number: "+ i);
+            for(Long i = 1L; i <= quantity; i++) {
+                kafkaTemplate.send(topicName, partition, i, msg +  " number: " + i);
                 kafkaTemplate.flush();
             }
         } else{
             throw new PartitionException();
         }
+        return "Operation successful";
     }
 
     @Override
-    public void sendingOneMessageByPartition(int partition, Long msgId, String msg) {
+    public String sendOneMessageByPartition(Integer partition, Long msgId, String msg) {
         if (partition <= numberOfPartitions - 1) {
-            ListenableFuture<SendResult<Long, String>> future = kafkaTemplate.send(topicName, msgId, msg);
-//            future.addCallback(System.out::println, System.err::println);
+            ListenableFuture<SendResult<Long, String>> future = kafkaTemplate.send(topicName,partition, msgId, msg);
+            kafkaTemplate.flush();
         } else {
             throw new PartitionException();
         }
+        return "Operation successful";
     }
 }

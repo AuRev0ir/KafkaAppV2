@@ -2,8 +2,7 @@ package ru.kafkaTest.producer.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +11,7 @@ import ru.kafkaTest.producer.service.ServiceProducer;
 
 
 @RestController
+@RequestMapping("api/producerAndConsumer")
 public class ControllerProducer {
 
    private final ServiceProducer service;
@@ -21,30 +21,30 @@ public class ControllerProducer {
         this.service = service;
     }
 
-    @PostMapping("/oneMsg")
-    public void sendingOneMessage (@RequestParam Long msgId,
-                                   @RequestParam String msg){
-        service.sendingOneMessage(msgId, msg);
+    @PostMapping("/oneMessage")
+    public ResponseEntity<String> sendOneMessage (@RequestParam Long msgId,
+                                                  @RequestParam String msg){
+        return ResponseEntity.ok(service.sendOneMessage(msgId, msg));
     }
 
-    @PostMapping("/newsletterMsg")
-    public void newsletterMsg (@RequestParam Long quantity,
-                               @RequestParam String msg){
-        service.newsletterMsg(quantity, msg);
+    @PostMapping("/manyMessages")
+    public ResponseEntity<String> sendManyMessages (@RequestParam Long quantity,
+                                                    @RequestParam String msg){
+        return ResponseEntity.ok(service.sendManyMessages(quantity, msg));
 
     }
 
-    @PostMapping("/newsletterMsg/byPartition")
-    public void newsletterMsgByPartition (@RequestParam Integer partition,
-                               @RequestParam Long quantity,
-                               @RequestParam String msg){
-       service.newsletterMsgByPartition(partition, quantity, msg);
+    @PostMapping("/manyMessagesByPartition")
+    public ResponseEntity<String> sendManyMessagesByPartition (@RequestParam Integer partition,
+                                                               @RequestParam Long quantity,
+                                                               @RequestParam String msg){
+       return ResponseEntity.ok(service.sendManyMessagesByPartition(partition, quantity, msg));
     }
 
-    @PostMapping("/oneMsg/ByPartition")
-    public void sendingOneMessage (@RequestParam Long msgId,
-                                   @RequestParam String msg,
-                                   @RequestParam Integer partition){
-        service.sendingOneMessageByPartition(partition,msgId,msg);
+    @PostMapping("oneMessageByPartition")
+    public ResponseEntity<String> sendOneMessageByPartition (@RequestParam Long msgId,
+                                                             @RequestParam String msg,
+                                                             @RequestParam Integer partition){
+        return ResponseEntity.ok(service.sendOneMessageByPartition(partition,msgId,msg));
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class ConsumerService {
 
 
-    @KafkaListener(topics = "kafka-test", groupId = "groupVV1")
+    @KafkaListener(topics = "kafka-test", groupId = "group1")
     public void  msgListener1(ConsumerRecord<Long,String> record){
         System.out.printf("consumer 1: offset = %d, key = %s, value = %s, partition = %s%n",
                 record.offset(),
@@ -22,7 +22,7 @@ public class ConsumerService {
         );
     }
 
-    @KafkaListener(topics = "kafka-test", groupId = "groupVV1")
+    @KafkaListener(topics = "kafka-test", groupId = "group1")
     public void  msgListener2(ConsumerRecord<Long,String> record){
         System.out.printf("consumer 2: offset = %d, key = %s, value = %s, partition = %s%n",
                 record.offset(),
@@ -32,7 +32,7 @@ public class ConsumerService {
         );
     }
 
-    @KafkaListener(topics = "kafka-test", groupId = "groupVV1")
+    @KafkaListener(topics = "kafka-test", groupId = "group1")
     public void  msgListener3(ConsumerRecord<Long,String> record){
         System.out.printf("consumer 3: offset = %d, key = %s, value = %s, partition = %s%n",
                 record.offset(),
